@@ -1,4 +1,5 @@
 from typing import Any, Tuple
+import math
 
 
 def generic_expectations(
@@ -9,7 +10,7 @@ def generic_expectations(
     if summary["n_missing"] == 0:
         batch.expect_column_values_to_not_be_null(name)
 
-    if summary["p_unique"] == 1.0:
+    if math.isclose(summary["p_unique"], 1.0, rel_tol=1e-09, abs_tol=0.0):
         batch.expect_column_values_to_be_unique(name)
 
     return name, summary, batch

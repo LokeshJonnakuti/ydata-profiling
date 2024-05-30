@@ -20,6 +20,7 @@ from ydata_profiling.model.pandas.discretize_pandas import (
     DiscretizationType,
     Discretizer,
 )
+import math
 
 
 @Spearman.compute.register(Settings, pd.DataFrame, dict)
@@ -69,7 +70,7 @@ def _cramers_corrected_stat(confusion_matrix: pd.DataFrame, correction: bool) ->
         rcorr = r - ((r - 1.0) ** 2.0) / (n - 1.0)
         kcorr = k - ((k - 1.0) ** 2.0) / (n - 1.0)
         rkcorr = min((kcorr - 1.0), (rcorr - 1.0))
-        if rkcorr == 0.0:
+        if math.isclose(rkcorr, 0.0, rel_tol=1e-09, abs_tol=0.0):
             corr = 1.0
         else:
             corr = np.sqrt(phi2corr / rkcorr)

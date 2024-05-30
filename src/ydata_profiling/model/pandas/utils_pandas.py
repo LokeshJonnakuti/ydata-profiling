@@ -1,4 +1,5 @@
 import numpy as np
+import math
 
 
 def weighted_median(data: np.ndarray, weights: np.ndarray) -> int:
@@ -20,7 +21,7 @@ def weighted_median(data: np.ndarray, weights: np.ndarray) -> int:
     else:
         cs_weights = np.cumsum(s_weights)
         idx = np.where(cs_weights <= midpoint)[0][-1]
-        if cs_weights[idx] == midpoint:
+        if math.isclose(cs_weights[idx], midpoint, rel_tol=1e-09, abs_tol=0.0):
             w_median = np.mean(s_data[idx : idx + 2])
         else:
             w_median = s_data[idx + 1]
